@@ -15,12 +15,12 @@ app.use(express.static('public'));
 
 //Templating Engine
 app.use(expressLayout);
-app.set('layout','./layouts/main');
 app.set('view engine', 'ejs');
+app.set('layout', 'layouts/main');
 
 //Home
 app.get('/', (req, res) => {
-    res.send("Hello World");
+    res.render('index');
 });
 
 app.listen(port, ()=>{
