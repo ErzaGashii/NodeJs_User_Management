@@ -18,9 +18,21 @@ app.use(expressLayout);
 app.set('view engine', 'ejs');
 app.set('layout', 'layouts/main');
 
-//Home
-app.get('/', (req, res) => {
-    res.render('index');
+//Routes
+app.use('/', require('./server/routes/customer'))
+
+// //Home
+// app.get('/', (req, res) => {
+//     const locals ={
+//         title: 'NodeJs',
+//         description: 'Free NodeJs User Management System'
+//     }
+//     res.render('index', locals);
+// });
+
+//Handle 404
+app.get('*', (req,res) => {
+    res.status(404).render('404');
 });
 
 app.listen(port, ()=>{
