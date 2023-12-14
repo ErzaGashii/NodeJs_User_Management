@@ -2,12 +2,20 @@ const Customer = require('../models/Customer');
 const mongoose = require('mongoose');
 
 exports.homepage = async (req,res) =>{
- 
+   const messages = await req.customerFlash('info');
     const locals ={
         title: 'NodeJs',
-        description: 'Free NodeJs User Management System'
+        description: 'NodeJs User Management System'
     }
-    res.render('index', locals);
+    try {
+                             //limiti se sa customer kemi mi marr -22
+        const customers = await Customer.find({}).limit(22)
+        
+        res.render('index', {locals, messages,customers});
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 //Get New Customer 
@@ -35,6 +43,9 @@ exports.postCustomer = async (req,res) =>{
  
 try {
     await Customer.create(newCustomer);
+ 
+    await req.flash('info', 'New customer has been added.')
+
     res.render('index');
 } catch (error) {
     console.log(error);
